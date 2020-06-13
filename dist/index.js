@@ -2115,7 +2115,7 @@ function main() {
                     const artifact = _c.value;
                     if (shouldDelete(artifact, actionInputs)) {
                         deletedArtifacts.push(artifact);
-                        core.debug(`Deleting artifact:\n${JSON.stringify(artifact, null, 2)}`);
+                        core.info(`Deleting artifact:\n${JSON.stringify(artifact, null, 2)}`);
                         yield octokit.actions.deleteArtifact({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
@@ -2136,6 +2136,7 @@ function main() {
         }
         catch (error) {
             core.setFailed(error.message);
+            core.setFailed(error.stack);
         }
     });
 }

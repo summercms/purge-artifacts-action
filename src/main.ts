@@ -28,7 +28,7 @@ export async function main(): Promise<void> {
     for await (const artifact of eachArtifact(octokit)) {
       if (shouldDelete(artifact, actionInputs)) {
         deletedArtifacts.push(artifact)
-        core.debug(`Deleting artifact:\n${JSON.stringify(artifact, null, 2)}`)
+        core.info(`Deleting artifact:\n${JSON.stringify(artifact, null, 2)}`)
         await octokit.actions.deleteArtifact({
           owner: github.context.repo.owner,
           repo: github.context.repo.repo,
@@ -40,6 +40,7 @@ export async function main(): Promise<void> {
     core.setOutput('deleted-artifacts', JSON.stringify(deletedArtifacts))
   } catch (error) {
     core.setFailed(error.message)
+    core.setFailed(error.stack)
   }
 }
 
